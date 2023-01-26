@@ -613,11 +613,13 @@
     var chairID = Uuid.NULL;
     var chairSeatID = Uuid.NULL;
     var chairAvatarSeatID = Uuid.NULL;
+    var renderWithZones;
+    var userData;
     
     function createChair() {
         var properties = Entities.getEntityProperties(_this.entityID, ["renderWithZones", "userData"]);
-        var renderWithZones = properties.renderWithZones;
-        var userData = JSON.parse(properties.userData);
+        renderWithZones = properties.renderWithZones;
+        userData = JSON.parse(properties.userData);
         
         if (chairID === Uuid.NULL) {
             chairID = Entities.addEntity({
