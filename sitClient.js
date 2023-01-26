@@ -177,7 +177,9 @@
             AvatarList.getAvatarIdentifiers()
         );
         deleteAllClickToSitOverlays();
-        print("HERE WE SIT!");
+
+        setSeatInUse();
+
         if (!_this.connectedStandUpSignals) {
             MyAvatar.scaleChanged.connect(_this.standUp);
             MyAvatar.onLoadComplete.connect(_this.standUp);
@@ -380,7 +382,9 @@
             }
 
             alreadyCalledStandUp = true;
-            print("HERE WE STAND!");
+
+            setSeatIdle();
+
             stopUpdateInterval();
             _this.sitDownSettlePeriod = false;
 
@@ -608,6 +612,7 @@
 
     var chairID = Uuid.NULL;
     var chairSeatID = Uuid.NULL;
+    var chairAvatarSeatID = Uuid.NULL;
     
     function createChair() {
         var properties = Entities.getEntityProperties(_this.entityID, ["renderWithZones", "userData"]);
@@ -647,7 +652,7 @@
                 "modelURL": ROOT + "resources/models/" + userData.fstSeat,
                 "useOriginalPivot": true
             }, "local");
-        }        
+        }
     }
 
     function deleteChair() {
@@ -658,6 +663,58 @@
         if (chairSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairSeatID);
             chairSeatID = Uuid.NULL;
+        }
+        if (chairAvatarSeatID !== Uuid.NULL) {
+            Entities.deleteEntity(chairAvatarSeatID);
+            chairAvatarSeatID = Uuid.NULL;
+        }        
+    }
+
+    function setSeatInUse() {
+        if (chairAvatarSeatID === Uuid.NULL) {
+            chairAvatarSeatID = Entities.addEntity({
+                "renderWithZones": renderWithZones,
+                "parentID": MyAvatar.sessionUUID,
+                "type": "Model",
+                "name": userData.name + "-Seat",
+                "dimensions": userData.dimensionsSeat,
+                "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
+                "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                "grab": {
+                    "grabbable": false
+                },
+                "shapeType": "none",
+                "modelURL": ROOT + "resources/models/" + userData.fstSeat,
+                "useOriginalPivot": true
+            }, "avatar");
+        }
+        if (chairSeatID !== Uuid.NULL) {
+            Entities.deleteEntity(chairSeatID);
+            chairSeatID = Uuid.NULL;
+        }        
+    }
+
+    function setSeatIdle() {
+        if (chairSeatID === Uuid.NULL) {
+            chairSeatID = Entities.addEntity({
+                "renderWithZones": renderWithZones,
+                "parentID": _this.entityID,
+                "type": "Model",
+                "name": userData.name + "-Seat",
+                "dimensions": userData.dimensionsSeat,
+                "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
+                "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                "grab": {
+                    "grabbable": false
+                },
+                "shapeType": "none",
+                "modelURL": ROOT + "resources/models/" + userData.fstSeat,
+                "useOriginalPivot": true
+            }, "local");
+        }
+        if (chairAvatarSeatID !== Uuid.NULL) {
+            Entities.deleteEntity(chairAvatarSeatID);
+            chairAvatarSeatID = Uuid.NULL;
         }
     }
 
