@@ -681,7 +681,8 @@
                 "name": userData.name + "-Seat",
                 "dimensions": userData.dimensionsSeat,
                 "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                //"localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                "localPosition": {"x": 0, "y": 0.0599, "z": 0},
                 "grab": {
                     "grabbable": false
                 },
