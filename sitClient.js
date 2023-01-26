@@ -177,7 +177,7 @@
             AvatarList.getAvatarIdentifiers()
         );
         deleteAllClickToSitOverlays();
-
+        print("HERE WE SIT!");
         if (!_this.connectedStandUpSignals) {
             MyAvatar.scaleChanged.connect(_this.standUp);
             MyAvatar.onLoadComplete.connect(_this.standUp);
@@ -380,7 +380,7 @@
             }
 
             alreadyCalledStandUp = true;
-            
+            print("HERE WE STAND!");
             stopUpdateInterval();
             _this.sitDownSettlePeriod = false;
 
