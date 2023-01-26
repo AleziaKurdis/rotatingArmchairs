@@ -1,0 +1,30 @@
+{
+  "DataVersion": 0,
+  "Entities": [
+    {
+        "type": "Box",
+        "visible": false,
+        "name": "Seat - Rotating Armchair - Black Leather",
+        "userData": "{\n    \"name\": \"rotating_armchair_blackLeather\",\n    \"fstBase\": \"rotating_armchair_base_blackLeather.fst\",\n    \"fstSeat\": \"rotating_armchair_seat_blackLeather.fst\",\n    \"dimensionsBase\": {\n        \"x\": 0.5059115886688232,\n        \"y\": 1.0777661800384521,\n        \"z\": 0.60999995470047\n    },\n    \"dimensionsSeat\": {\n        \"x\": 0.5059115886688232,\n        \"y\": 1.0777661800384521,\n        \"z\": 0.60999995470047\n    },\n    \"canClickOnModelToSit\": false\n}",
+        "dimensions": {
+            "x": 0.3499999940395355,
+            "y": 0.004999999888241291,
+            "z": 0.3499999940395355
+        },
+        "grab": {
+            "grabbable": false
+        },
+        "script": "https://aleziakurdis.github.io/rotatingArmchairs/sitClient.js",
+        "scriptTimestamp": 1670185484288,
+        "serverScripts": "https://aleziakurdis.github.io/rotatingArmchairs/sitServer.js",
+        "color": {
+            "red": 0,
+            "green": 180,
+            "blue": 239
+        },
+        "shape": "Cube"
+    }
+    ],
+  "Id": "{6949198a-a886-4f7f-95f6-834e11ddd371}",
+  "Version": 133
+}
