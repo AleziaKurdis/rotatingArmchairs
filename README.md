@@ -1,7 +1,7 @@
 # rotatingArmchairs  
 Scripted rotating armchairs for Overte virtual worlds.  
   
-## Ritating Armchair - Black Leather   
+## Rotating Armchair - Black Leather   
 <img src="pictures/rotating_armchair_blackLeather.jpg" height="200">  
   
 To Install:  
