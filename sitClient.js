@@ -607,7 +607,8 @@
     }
 
     var chairID = Uuid.NULL;
-
+    var chairSeatID = Uuid.NULL;
+    
     function createChair() {
         var properties = Entities.getEntityProperties(_this.entityID, ["renderWithZones", "userData"]);
         var renderWithZones = properties.renderWithZones;
@@ -618,24 +619,45 @@
                 "renderWithZones": renderWithZones,
                 "parentID": _this.entityID,
                 "type": "Model",
-                "name": userData.name,
-                "dimensions": userData.dimensions,
+                "name": userData.name + "-Base",
+                "dimensions": userData.dimensionsBase,
                 "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
                 "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
                 "grab": {
                     "grabbable": false
                 },
                 "shapeType": "none",
-                "modelURL": ROOT + "resources/models/" + userData.fst,
+                "modelURL": ROOT + "resources/models/" + userData.fstBase,
                 "useOriginalPivot": true                
             }, "local");
         }
+        if (chairSeatID === Uuid.NULL) {
+            chairSeatID = Entities.addEntity({
+                "renderWithZones": renderWithZones,
+                "parentID": _this.entityID,
+                "type": "Model",
+                "name": userData.name + "-Seat",
+                "dimensions": userData.dimensionsSeat,
+                "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
+                "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                "grab": {
+                    "grabbable": false
+                },
+                "shapeType": "none",
+                "modelURL": ROOT + "resources/models/" + userData.fstSeat,
+                "useOriginalPivot": true
+            }, "local");
+        }        
     }
 
     function deleteChair() {
         if (chairID !== Uuid.NULL) {
             Entities.deleteEntity(chairID);
             chairID = Uuid.NULL;
+        }
+        if (chairSeatID !== Uuid.NULL) {
+            Entities.deleteEntity(chairSeatID);
+            chairSeatID = Uuid.NULL;
         }
     }
 
