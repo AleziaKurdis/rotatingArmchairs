@@ -629,7 +629,6 @@
                 "name": userData.name + "-Base",
                 "dimensions": userData.dimensionsBase,
                 "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                //"localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
                 "localPosition": {"x": 0.0, "y": -0.8773, "z": 0.0},
                 "grab": {
                     "grabbable": false
