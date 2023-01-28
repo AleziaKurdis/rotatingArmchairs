@@ -737,12 +737,15 @@
 
     function onMessageReceived(channel, message, sender, localOnly) {
         if (channel === channelComm && sender === _this.entityID) {
+            print("Message for this Chair!");
             var data = JSON.parse(message);
             if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID) {
+                print("Message ARMCHAIR_SIT!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {"visible": false});
                 }
             } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID) {
+                print("Message ARMCHAIR_STAND!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {"visible": true});
                 }
