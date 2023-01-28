@@ -697,7 +697,8 @@
         }
         var message = {
             "action": "ARMCHAIR_SIT",
-            "avatarID": MyAvatar.sessionUUID
+            "avatarID": MyAvatar.sessionUUID,
+            "entityID": _this.entityID
         };
         Messages.sendMessage(channelComm, JSON.stringify(message));
     }
@@ -726,23 +727,21 @@
         }
         var message = {
             "action": "ARMCHAIR_STAND",
-            "avatarID": MyAvatar.sessionUUID
+            "avatarID": MyAvatar.sessionUUID,
+            "entityID": _this.entityID
         };
         Messages.sendMessage(channelComm, JSON.stringify(message));
     }
 
     function onMessageReceived(channel, message, sender, localOnly) {
-        print("CHANNEL: " + channel);
-        print("Sender: " + sender);
-        if (channel === channelComm && sender === _this.entityID) {
-            print("Message for this Chair!");
+        if (channel === channelComm) {
             var data = JSON.parse(message);
-            if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID) {
+            if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_SIT!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {"visible": false});
                 }
-            } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID) {
+            } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_STAND!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {"visible": true});
