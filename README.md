@@ -15,3 +15,10 @@ To Install:
 Edit > Import Entities (.json) From a URL  
 https://aleziakurdis.github.io/rotatingArmchairs/rotating_armchair_veryPeri.json  
   
+## Rotostool - Brick Color Fabric   
+<img src="pictures/rotostool_brick.jpg" height="200">  
+  
+To Install:  
+Edit > Import Entities (.json) From a URL  
+https://aleziakurdis.github.io/rotatingArmchairs/rotostool_brick.json
+  
