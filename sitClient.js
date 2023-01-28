@@ -188,8 +188,6 @@
             Script.scriptEnding.connect(_this.standUp);
             MyAvatar.wentAway.connect(_this.standUp);
             HMD.displayModeChanged.connect(_this.standUp);
-            Messages.subscribe(channelComm);
-            Messages.messageReceived.connect(onMessageReceived);            
             _this.connectedStandUpSignals = true;
         }
     }
@@ -411,8 +409,6 @@
                 Script.scriptEnding.disconnect(_this.standUp);
                 MyAvatar.wentAway.disconnect(_this.standUp);
                 HMD.displayModeChanged.disconnect(_this.standUp);
-                Messages.messageReceived.disconnect(onMessageReceived);
-                Messages.unsubscribe(channelComm); 
                 _this.connectedStandUpSignals = false;
             }
 
@@ -761,6 +757,8 @@
         prefetchPresitImages();
         updateUserData();
         requestSitData(_this.entityID);
+        Messages.subscribe(channelComm);
+        Messages.messageReceived.connect(onMessageReceived);
     }
 
     // Unload entity method
@@ -784,11 +782,11 @@
             location.hostChanged.disconnect(_this.standUp);
             Script.scriptEnding.disconnect(_this.standUp);
             MyAvatar.wentAway.disconnect(_this.standUp);
-            HMD.displayModeChanged.disconnect(_this.standUp);
-            Messages.messageReceived.disconnect(onMessageReceived);
-            Messages.unsubscribe(channelComm);            
+            HMD.displayModeChanged.disconnect(_this.standUp);         
             _this.connectedStandUpSignals = false;
         }
+        Messages.messageReceived.disconnect(onMessageReceived);
+        Messages.unsubscribe(channelComm);   
     }
 
 
