@@ -24,6 +24,7 @@
 
     var jsMainFileName = "sitClient.js";
     var ROOT = Script.resolvePath('').split(jsMainFileName)[0];
+    var channelComm = "ak.rotatingArmchair.cs.communication";
 
     // Returns entity properties for an overlay in front of user's camera in desktop and VR
     function getEntityPropertiesForImageInFrontOfCamera(positionInFront, dimensions, url) {
@@ -187,6 +188,8 @@
             Script.scriptEnding.connect(_this.standUp);
             MyAvatar.wentAway.connect(_this.standUp);
             HMD.displayModeChanged.connect(_this.standUp);
+            Messages.subscribe(channelComm);
+            Messages.messageReceived.connect(onMessageReceived);            
             _this.connectedStandUpSignals = true;
         }
     }
@@ -408,6 +411,8 @@
                 Script.scriptEnding.disconnect(_this.standUp);
                 MyAvatar.wentAway.disconnect(_this.standUp);
                 HMD.displayModeChanged.disconnect(_this.standUp);
+                Messages.messageReceived.disconnect(onMessageReceived);
+                Messages.unsubscribe(channelComm); 
                 _this.connectedStandUpSignals = false;
             }
 
@@ -693,7 +698,12 @@
         if (chairSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairSeatID);
             chairSeatID = Uuid.NULL;
-        }        
+        }
+        var message = {
+            "action": "ARMCHAIR_SIT",
+            "avatarID": MyAvatar.sessionUUID
+        };
+        Messages.sendMessage(channelComm, JSON.stringify(message));
     }
 
     function setSeatIdle() {
@@ -717,6 +727,26 @@
         if (chairAvatarSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairAvatarSeatID);
             chairAvatarSeatID = Uuid.NULL;
+        }
+        var message = {
+            "action": "ARMCHAIR_STAND",
+            "avatarID": MyAvatar.sessionUUID
+        };
+        Messages.sendMessage(channelComm, JSON.stringify(message));
+    }
+
+    function onMessageReceived(channel, message, sender, localOnly) {
+        if (channel === channelComm && sender === _this.entityID) {
+            var data = JSON.parse(message);
+            if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID) {
+                if (chairSeatID !== Uuid.NULL) {
+                    Entities.editEntity(chairSeatID, {"visible": false});
+                }
+            } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID) {
+                if (chairSeatID !== Uuid.NULL) {
+                    Entities.editEntity(chairSeatID, {"visible": true});
+                }
+            }
         }
     }
 
@@ -752,6 +782,8 @@
             Script.scriptEnding.disconnect(_this.standUp);
             MyAvatar.wentAway.disconnect(_this.standUp);
             HMD.displayModeChanged.disconnect(_this.standUp);
+            Messages.messageReceived.disconnect(onMessageReceived);
+            Messages.unsubscribe(channelComm);            
             _this.connectedStandUpSignals = false;
         }
     }
