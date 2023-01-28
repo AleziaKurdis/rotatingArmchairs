@@ -733,6 +733,7 @@
 
     function onMessageReceived(channel, message, sender, localOnly) {
         print("CHANNEL: " + channel);
+        print("Sender: " + sender);
         if (channel === channelComm && sender === _this.entityID) {
             print("Message for this Chair!");
             var data = JSON.parse(message);
