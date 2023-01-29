@@ -736,16 +736,16 @@
     function onMessageReceived(channel, message, sender, localOnly) {
         if (channel === channelComm) {
             var data = JSON.parse(message);
-            if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
+            if (data.action === "ARMCHAIR_SIT" && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_SIT!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {
-                        "parentID": MyAvatar.sessionUUID,
+                        "parentID": data.avatarID,
                         "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
                         "localPosition": Vec3.multiply({"x": 0, "y": -0.8174, "z": -0.0519}, (1 / MyAvatar.scale))
                     });
                 }
-            } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
+            } else if (data.action === "ARMCHAIR_STAND" && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_STAND!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {
@@ -755,6 +755,7 @@
                     });
                 }
             } else if (data.action === "ARMCHAIR_I_AM_NEW" && data.entityID === _this.entityID) {
+                print("ARMCHAIR_I_AM_NEW!");
                 if (isSittingInThisChair) {
                     var message = {
                         "action": "ARMCHAIR_SIT",
