@@ -613,7 +613,6 @@
 
     var chairID = Uuid.NULL;
     var chairSeatID = Uuid.NULL;
-    //var chairAvatarSeatID = Uuid.NULL;
     var renderWithZones;
     var userData;
     
@@ -667,34 +666,9 @@
             Entities.deleteEntity(chairSeatID);
             chairSeatID = Uuid.NULL;
         }
-        /*if (chairAvatarSeatID !== Uuid.NULL) {
-            Entities.deleteEntity(chairAvatarSeatID);
-            chairAvatarSeatID = Uuid.NULL;
-        }*/
     }
 
     function setSeatInUse() {
-        /*if (chairAvatarSeatID === Uuid.NULL) {
-            chairAvatarSeatID = Entities.addEntity({
-                "renderWithZones": renderWithZones,
-                "parentID": MyAvatar.sessionUUID,
-                "type": "Model",
-                "name": userData.name + "-Seat",
-                "dimensions": userData.dimensionsSeat,
-                "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                "localPosition": Vec3.multiply({"x": 0, "y": -0.8174, "z": -0.0519}, (1 / MyAvatar.scale)),
-                "grab": {
-                    "grabbable": false
-                },
-                "shapeType": "none",
-                "modelURL": ROOT + "resources/models/" + userData.fstSeat,
-                "useOriginalPivot": true
-            }, "avatar");
-        }
-        if (chairSeatID !== Uuid.NULL) {
-            Entities.deleteEntity(chairSeatID);
-            chairSeatID = Uuid.NULL;
-        }*/
         var message = {
             "action": "ARMCHAIR_SIT",
             "avatarID": MyAvatar.sessionUUID,
@@ -704,27 +678,6 @@
     }
 
     function setSeatIdle() {
-        /*if (chairSeatID === Uuid.NULL) {
-            chairSeatID = Entities.addEntity({
-                "renderWithZones": renderWithZones,
-                "parentID": _this.entityID,
-                "type": "Model",
-                "name": userData.name + "-Seat",
-                "dimensions": userData.dimensionsSeat,
-                "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
-                "grab": {
-                    "grabbable": false
-                },
-                "shapeType": "none",
-                "modelURL": ROOT + "resources/models/" + userData.fstSeat,
-                "useOriginalPivot": true
-            }, "local");
-        }
-        if (chairAvatarSeatID !== Uuid.NULL) {
-            Entities.deleteEntity(chairAvatarSeatID);
-            chairAvatarSeatID = Uuid.NULL;
-        }*/
         var message = {
             "action": "ARMCHAIR_STAND",
             "avatarID": MyAvatar.sessionUUID,
@@ -737,16 +690,15 @@
         if (channel === channelComm) {
             var data = JSON.parse(message);
             if (data.action === "ARMCHAIR_SIT" && data.entityID === _this.entityID) {
-                print("Message ARMCHAIR_SIT!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {
                         "parentID": data.avatarID,
                         "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                        "localPosition": Vec3.multiply({"x": 0, "y": -0.8174, "z": -0.0519}, (1 / MyAvatar.scale))
+                        //"localPosition": Vec3.multiply({"x": 0, "y": -0.8174, "z": -0.0519}, (1 / MyAvatar.scale))
+                        "localPosition": Vec3.multiply({"x": 0, "y": -0.8773, "z": -0.0519}, (1 / MyAvatar.scale))
                     });
                 }
             } else if (data.action === "ARMCHAIR_STAND" && data.entityID === _this.entityID) {
-                print("Message ARMCHAIR_STAND!");
                 if (chairSeatID !== Uuid.NULL) {
                     Entities.editEntity(chairSeatID, {
                         "parentID": _this.entityID,
@@ -755,7 +707,6 @@
                     });
                 }
             } else if (data.action === "ARMCHAIR_I_AM_NEW" && data.entityID === _this.entityID) {
-                print("ARMCHAIR_I_AM_NEW!");
                 if (isSittingInThisChair) {
                     var message = {
                         "action": "ARMCHAIR_SIT",
