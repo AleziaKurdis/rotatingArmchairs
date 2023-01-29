@@ -613,7 +613,7 @@
 
     var chairID = Uuid.NULL;
     var chairSeatID = Uuid.NULL;
-    var chairAvatarSeatID = Uuid.NULL;
+    //var chairAvatarSeatID = Uuid.NULL;
     var renderWithZones;
     var userData;
     
@@ -667,14 +667,14 @@
             Entities.deleteEntity(chairSeatID);
             chairSeatID = Uuid.NULL;
         }
-        if (chairAvatarSeatID !== Uuid.NULL) {
+        /*if (chairAvatarSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairAvatarSeatID);
             chairAvatarSeatID = Uuid.NULL;
-        }        
+        }*/
     }
 
     function setSeatInUse() {
-        if (chairAvatarSeatID === Uuid.NULL) {
+        /*if (chairAvatarSeatID === Uuid.NULL) {
             chairAvatarSeatID = Entities.addEntity({
                 "renderWithZones": renderWithZones,
                 "parentID": MyAvatar.sessionUUID,
@@ -694,7 +694,7 @@
         if (chairSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairSeatID);
             chairSeatID = Uuid.NULL;
-        }
+        }*/
         var message = {
             "action": "ARMCHAIR_SIT",
             "avatarID": MyAvatar.sessionUUID,
@@ -704,7 +704,7 @@
     }
 
     function setSeatIdle() {
-        if (chairSeatID === Uuid.NULL) {
+        /*if (chairSeatID === Uuid.NULL) {
             chairSeatID = Entities.addEntity({
                 "renderWithZones": renderWithZones,
                 "parentID": _this.entityID,
@@ -724,7 +724,7 @@
         if (chairAvatarSeatID !== Uuid.NULL) {
             Entities.deleteEntity(chairAvatarSeatID);
             chairAvatarSeatID = Uuid.NULL;
-        }
+        }*/
         var message = {
             "action": "ARMCHAIR_STAND",
             "avatarID": MyAvatar.sessionUUID,
@@ -739,12 +739,29 @@
             if (data.action === "ARMCHAIR_SIT" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_SIT!");
                 if (chairSeatID !== Uuid.NULL) {
-                    Entities.editEntity(chairSeatID, {"visible": false});
+                    Entities.editEntity(chairSeatID, {
+                        "parentID": MyAvatar.sessionUUID,
+                        "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
+                        "localPosition": Vec3.multiply({"x": 0, "y": -0.8174, "z": -0.0519}, (1 / MyAvatar.scale))
+                    });
                 }
             } else if (data.action === "ARMCHAIR_STAND" && data.avatarID !== MyAvatar.sessionUUID && data.entityID === _this.entityID) {
                 print("Message ARMCHAIR_STAND!");
                 if (chairSeatID !== Uuid.NULL) {
-                    Entities.editEntity(chairSeatID, {"visible": true});
+                    Entities.editEntity(chairSeatID, {
+                        "parentID": _this.entityID,
+                        "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
+                        "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519}
+                    });
+                }
+            } else if (data.action === "ARMCHAIR_I_AM_NEW" && data.entityID === _this.entityID) {
+                if (isSittingInThisChair) {
+                    var message = {
+                        "action": "ARMCHAIR_SIT",
+                        "avatarID": MyAvatar.sessionUUID,
+                        "entityID": _this.entityID
+                    };
+                    Messages.sendMessage(channelComm, JSON.stringify(message));
                 }
             }
         }
@@ -760,6 +777,12 @@
         requestSitData(_this.entityID);
         Messages.subscribe(channelComm);
         Messages.messageReceived.connect(onMessageReceived);
+        var message = {
+            "action": "ARMCHAIR_I_AM_NEW",
+            "avatarID": MyAvatar.sessionUUID,
+            "entityID": _this.entityID
+        };
+        Messages.sendMessage(channelComm, JSON.stringify(message));        
     }
 
     // Unload entity method
