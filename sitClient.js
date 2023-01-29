@@ -694,7 +694,6 @@
                     Entities.editEntity(chairSeatID, {
                         "parentID": data.avatarID,
                         "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                        //"localPosition": Vec3.multiply({"x": 0, "y": -0.8773, "z": -0.0519}, (1 / MyAvatar.scale))
                         "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519}
                     });
                 }
