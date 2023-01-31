@@ -634,6 +634,10 @@
                     "grabbable": false
                 },
                 "shapeType": "none",
+                "velocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                "damping": 1.0,
+                "angularVelocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                "angularDamping": 1.0,                
                 "modelURL": ROOT + "resources/models/" + userData.fstBase,
                 "useOriginalPivot": true                
             }, "local");
@@ -651,6 +655,10 @@
                     "grabbable": false
                 },
                 "shapeType": "none",
+                "velocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                "damping": 1.0,
+                "angularVelocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                "angularDamping": 1.0,  
                 "modelURL": ROOT + "resources/models/" + userData.fstSeat,
                 "useOriginalPivot": true
             }, "local");
@@ -694,7 +702,11 @@
                     Entities.editEntity(chairSeatID, {
                         "parentID": data.avatarID,
                         "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                        "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519}
+                        "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                        "velocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                        "damping": 1.0,
+                        "angularVelocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                        "angularDamping": 1.0  
                     });
                 }
             } else if (data.action === "ARMCHAIR_STAND" && data.entityID === _this.entityID) {
@@ -702,7 +714,11 @@
                     Entities.editEntity(chairSeatID, {
                         "parentID": _this.entityID,
                         "localRotation": Quat.fromVec3Degrees({"x": 0.0, "y": -90,"z": 0.0}),
-                        "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519}
+                        "localPosition": {"x": 0, "y": -0.8773, "z": -0.0519},
+                        "velocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                        "damping": 1.0,
+                        "angularVelocity": {"x": 0.0, "y": 0.0, "z": 0.0},
+                        "angularDamping": 1.0
                     });
                 }
             } else if (data.action === "ARMCHAIR_I_AM_NEW" && data.entityID === _this.entityID) {
